@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: keel
+      POSTGRES_PASSWORD: keel
+      POSTGRES_DB: keel_compare
+    ports:
+      - "5434:5432"
+    volumes:
+      - keel-compare-pg:/var/lib/postgresql/data
+
+volumes:
+  keel-compare-pg:
