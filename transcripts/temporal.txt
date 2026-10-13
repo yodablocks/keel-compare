@@ -1,0 +1,22 @@
+temporal demo: task queue demo-80f645ad, $0.125 budget
+[demo] started workflow research-837f01c3-d89e-43db-8a95-c40058f2ab55
+[worker A] started
+[worker A] calling model for research
+[worker A] calling model for plan
+[worker A] plan failed: "Model requested tool `serch_web`, which is not in the provided tool list"
+[worker A] calling model for plan (with hint)
+[worker A] calling model for draft
+[demo] SIGKILL worker A (mid-draft, no cleanup)
+[demo] starting worker B; the server hands it the draft once A misses its 1.5s heartbeat
+[worker B] started
+[worker B] calling model for draft
+[worker B] sending email (idempotency key research-837f01c3-d89e-43db-8a95-c40058f2ab55:send)
+[worker B] send failed: "429 Too Many Requests: email API rate limit"
+[worker B] sending email (idempotency key research-837f01c3-d89e-43db-8a95-c40058f2ab55:send)
+[reviewer] workflow is waiting: spent $0.13 of its $0.125 budget before step "follow-up"
+[reviewer] raised the budget to $0.25 and approved
+[worker B] calling model for follow-up
+[demo] workflow completed, spent $0.15
+[demo] result: {"draft":"A short brief on durable execution, from 2 notes and a search_web for \"durable execution\".","messageId":"msg-research-837f01c3-d89e-43db-8a95-c40058f2ab55:send","followUp":"Scheduled a follow-up question for next week."}
+[demo] failures in workflow history:
+  Model requested tool `serch_web`, which is not in the provided tool list
