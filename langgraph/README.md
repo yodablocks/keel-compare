@@ -11,6 +11,7 @@ pnpm demo:langgraph
 
 - `graph.ts`: the agent as a `StateGraph`, one node per step, plus the hand-written budget gate.
 - `worker.ts`: one process that runs `start`, `resume` or `approve` on a thread, then exits.
+- `durability-check.ts`: kills a worker right after a node finishes, under each durability mode, and reports whether the node was kept. Results in [`../transcripts/langgraph-durability.txt`](../transcripts/langgraph-durability.txt).
 - `demo.ts`: the harness. Kills worker A mid-draft, starts worker B to resume, plays the reviewer, starts worker C to finish.
 
 ## How each moment is handled
