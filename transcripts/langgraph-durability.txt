@@ -1,0 +1,26 @@
+LangGraph.js 1.5.0, PostgresSaver, Postgres 17 in Docker on the same machine. October 2026.
+
+20 runs per mode, node a works 300ms. Each child SIGKILLs itself 0ms into node b, right after a finished.
+
+mode    a kept   a kept, but next: []   a lost   nothing saved
+async   0        0                      20       0
+sync    20       0                      0        0
+exit    0        0                      0        20
+
+async only, crash at increasing delays into node b, 20 runs each:
+
+crash 0ms into b:
+mode    a kept   a kept, but next: []   a lost   nothing saved
+async   0        0                      20       0
+crash 3ms into b:
+mode    a kept   a kept, but next: []   a lost   nothing saved
+async   0        4                      16       0
+crash 5ms into b:
+mode    a kept   a kept, but next: []   a lost   nothing saved
+async   9        10                     1        0
+crash 10ms into b:
+mode    a kept   a kept, but next: []   a lost   nothing saved
+async   20       0                      0        0
+crash 30ms into b:
+mode    a kept   a kept, but next: []   a lost   nothing saved
+async   20       0                      0        0
