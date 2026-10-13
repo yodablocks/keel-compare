@@ -12,11 +12,17 @@
   "scripts": {
     "test": "node --test 'test/**/*.test.ts'",
     "db:up": "docker compose up -d",
-    "demo:langgraph": "node langgraph/demo.ts"
+    "demo:langgraph": "node langgraph/demo.ts",
+    "temporal:dev": "temporal server start-dev --headless",
+    "demo:temporal": "node temporal/demo.ts"
   },
   "dependencies": {
     "@langchain/core": "^1.2.17",
     "@langchain/langgraph": "^1.5.0",
-    "@langchain/langgraph-checkpoint-postgres": "^1.1.0"
+    "@langchain/langgraph-checkpoint-postgres": "^1.1.0",
+    "@temporalio/activity": "^1.24.0",
+    "@temporalio/client": "^1.24.0",
+    "@temporalio/worker": "^1.24.0",
+    "@temporalio/workflow": "^1.24.0"
   }
 }
