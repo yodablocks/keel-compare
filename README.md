@@ -73,7 +73,7 @@ Full spec and fairness rules: [SPEC.md](SPEC.md).
 **Falls short**
 - No process model. When a worker dies, the thread sits at `next: ["draft"]` until something you wrote calls `invoke(null)` on it. LangGraph Platform adds a server and queue for this; the open-source library does not.
 - The default `retryOn` retries almost any error, including bad model output, with the same input.
-- Checkpoint durability defaults to `"async"`. The docs say it saves while the next node runs; this port sets `"sync"` to be safe. Not yet tested whether `"async"` actually loses a step on SIGKILL.
+- Checkpoint durability defaults to `"async"`, and that can lose a finished step. Tested with a worker killed right after a node finished: `"async"` lost the node 20 times out of 20 and it ran again on resume; `"sync"` kept it every time. The window is short (under 10 ms on a local Postgres, roughly one database write; longer with a remote database), but a step that sent an email or charged a card would do it twice. A crash a few ms later can also leave `getState()` showing nothing left to run while `invoke(null)` still finishes the run. This port uses `"sync"`. Script: [`langgraph/durability-check.ts`](langgraph/durability-check.ts), results: [`transcripts/langgraph-durability.txt`](transcripts/langgraph-durability.txt).
 - No budget concept. Spend lives in state and the gate is about 15 lines in [`langgraph/graph.ts`](langgraph/graph.ts).
 - Node names cannot match state keys (`research`, `plan`, `draft` had to become `findings`, `toolCall`, `brief`).
 
@@ -119,6 +119,7 @@ pnpm test                              # checks the scripted world
 
 docker compose up -d                   # Postgres on port 5434
 pnpm demo:langgraph                    # LangGraph port, five moments in one run
+pnpm check:durability                  # does "async" checkpointing lose a step on a crash?
 
 temporal server start-dev --headless   # in another terminal
 pnpm demo:temporal                     # Temporal port

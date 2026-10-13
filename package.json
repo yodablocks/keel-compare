@@ -15,7 +15,8 @@
     "demo:langgraph": "node langgraph/demo.ts",
     "temporal:dev": "temporal server start-dev --headless",
     "demo:temporal": "node temporal/demo.ts",
-    "images": "node scripts/make-matrix.ts && \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1280,640 --screenshot=\"$PWD/docs/images/social-preview.png\" \"file://$PWD/docs/images/matrix.svg\""
+    "images": "node scripts/make-matrix.ts && \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1280,640 --screenshot=\"$PWD/docs/images/social-preview.png\" \"file://$PWD/docs/images/matrix.svg\"",
+    "check:durability": "node langgraph/durability-check.ts"
   },
   "dependencies": {
     "@langchain/core": "^1.2.17",
